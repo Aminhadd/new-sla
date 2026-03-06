@@ -3,15 +3,31 @@ import type { Route } from "next";
 import { getMessages, Lang } from "@/lib/i18n/messages";
 import { PortalRole, portalLabels, portalNavigation } from "@/lib/auth/portal";
 
+type QuickAction = {
+  href: Route;
+  label: string;
+};
+
+const portalQuickActions: Record<PortalRole, QuickAction[]> = {
+  tenant: [
+    { href: "/work-orders/new", label: "Create Request" },
+    { href: "/notifications", label: "View Notices" }
+  ],
+  owner: [
+    { href: "/reports", label: "Open Reports" },
+    { href: "/sites", label: "View Portfolio" }
+  ],
+  manager: [
+    { href: "/work-orders", label: "Manage Work Orders" },
+    { href: "/settings/sla-policies", label: "SLA Settings" }
+  ]
+};
+
 export function AppShell({ lang, portalRole, children }: { lang: Lang; portalRole: PortalRole; children: React.ReactNode }) {
   const t = getMessages(lang);
   const roleNav = portalNavigation[portalRole];
   const roleLabel = portalLabels[portalRole];
-  const portalSwitches: { role: PortalRole; href: Route }[] = [
-    { role: "tenant", href: "/tenant/dashboard" },
-    { role: "owner", href: "/owner/dashboard" },
-    { role: "manager", href: "/manager" }
-  ];
+  const quickActions = portalQuickActions[portalRole];
 
   return (
     <div className="min-h-screen">
@@ -20,14 +36,14 @@ export function AppShell({ lang, portalRole, children }: { lang: Lang; portalRol
           <p className="text-sm font-bold uppercase tracking-[0.12em] text-cyan-800">{t.brand}</p>
           <p className="mb-4 mt-1 text-xs font-semibold uppercase tracking-[0.12em] text-amber-700">{roleLabel}</p>
 
-          <div className="mb-4 grid grid-cols-3 gap-1 rounded-xl bg-cyan-50 p-1 text-xs font-semibold">
-            {portalSwitches.map(({ role, href }) => (
+          <div className="mb-4 space-y-2">
+            {quickActions.map((action) => (
               <Link
-                key={role}
-                className={`rounded-lg px-2 py-2 text-center ${role === portalRole ? "bg-white text-cyan-700 shadow-sm" : "text-slate-600 hover:text-cyan-700"}`}
-                href={href}
+                key={action.href}
+                className="block rounded-lg bg-cyan-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-cyan-700"
+                href={action.href}
               >
-                {portalLabels[role].replace(" Portal", "")}
+                {action.label}
               </Link>
             ))}
           </div>
