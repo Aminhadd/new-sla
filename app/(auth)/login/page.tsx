@@ -8,28 +8,30 @@ import { PortalRole, normalizePortalRole } from "@/lib/auth/portal";
 import { createClient } from "@/lib/supabase/server";
 
 type Props = {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; portal?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: Props) {
   const params = await searchParams;
+  const selectedPortal = normalizePortalRole(params.portal);
 
   async function login(formData: FormData) {
     "use server";
 
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
-    const portalRole = normalizePortalRole(String(formData.get("portalRole") ?? "manager"));
+    const portalHint = normalizePortalRole(String(formData.get("portalHint") ?? "manager"));
+    const portalRole = normalizePortalRole(String(formData.get("portalRole") ?? portalHint));
 
     if (!email || !password) {
-      redirect("/login?error=missing_fields");
+      redirect(`/login?portal=${portalHint}&error=missing_fields`);
     }
 
     const supabase = await createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      redirect("/login?error=invalid_credentials");
+      redirect(`/login?portal=${portalHint}&error=invalid_credentials`);
     }
 
     const cookieStore = await cookies();
@@ -53,6 +55,7 @@ export default async function LoginPage({ searchParams }: Props) {
           <p className="text-sm text-slate-600">Use your email and password, then enter the tenant, owner, or manager portal.</p>
         </div>
         <form action={login} className="space-y-4">
+          <input type="hidden" name="portalHint" value={selectedPortal} />
           <div className="space-y-1">
             <label className="text-sm font-medium text-slate-700" htmlFor="email">Email</label>
             <Input id="email" name="email" placeholder="name@company.com" type="email" required />
@@ -66,7 +69,7 @@ export default async function LoginPage({ searchParams }: Props) {
             <select
               id="portalRole"
               name="portalRole"
-              defaultValue="manager"
+              defaultValue={selectedPortal}
               className="h-11 w-full rounded-xl border border-border/90 bg-white/90 px-4 text-sm shadow-inner shadow-slate-100/70 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             >
               <option value="tenant">Tenant Portal</option>
