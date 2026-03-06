@@ -2,17 +2,37 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { getMessages } from "@/lib/i18n/messages";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default async function LandingPage() {
   const lang = ((await cookies()).get("lang")?.value ?? "en") as "en" | "ar";
   const t = getMessages(lang);
   return (
-    <section className="mx-auto max-w-6xl space-y-6 p-6">
-      <h1 className="text-3xl font-semibold">{t.landingHeadline}</h1>
-      <p className="max-w-3xl text-slate-600">{t.landingSubheadline}</p>
-      <div className="flex gap-3">
-        <Link href="/login"><Button>Start Pilot</Button></Link>
-        <Link href="/contact"><Button variant="outline">Request Demo</Button></Link>
+    <section className="space-y-8">
+      <Card className="overflow-hidden border-cyan-100 bg-gradient-to-r from-cyan-50 via-white to-amber-50">
+        <div className="space-y-5 p-2">
+          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-cyan-700">Property Ops Intelligence</p>
+          <h1 className="max-w-3xl text-4xl font-bold leading-tight text-slate-900 md:text-5xl">{t.landingHeadline}</h1>
+          <p className="max-w-3xl text-base text-slate-600 md:text-lg">{t.landingSubheadline}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/login"><Button>Start Pilot</Button></Link>
+            <Link href="/contact"><Button variant="outline">Request Demo</Button></Link>
+          </div>
+        </div>
+      </Card>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Live SLA Visibility</p>
+          <p className="text-sm text-slate-600">Track response and resolution risk before breach, across every site.</p>
+        </Card>
+        <Card>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Vendor Accountability</p>
+          <p className="text-sm text-slate-600">Compare vendors by compliance score, delivery speed, and approval cycle.</p>
+        </Card>
+        <Card>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Audit-Ready Records</p>
+          <p className="text-sm text-slate-600">Export standardized work-order and performance data for stakeholders.</p>
+        </Card>
       </div>
     </section>
   );

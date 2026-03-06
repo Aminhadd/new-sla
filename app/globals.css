@@ -2,8 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: 195 38% 97%;
+  --foreground: 207 65% 13%;
+  --border: 195 22% 83%;
+  --input: 195 22% 83%;
+  --ring: 197 100% 38%;
+  --primary: 196 100% 36%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 42 100% 94%;
+  --secondary-foreground: 208 63% 17%;
+}
+
 body {
   @apply bg-background text-foreground antialiased;
+  font-family: var(--font-body), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(0, 170, 204, 0.16), transparent 32%),
+    radial-gradient(circle at 92% 88%, rgba(255, 183, 76, 0.22), transparent 28%),
+    linear-gradient(180deg, rgba(250, 253, 255, 0.94), rgba(240, 248, 252, 0.96));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), "Trebuchet MS", "Segoe UI", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+a {
+  @apply transition-colors duration-200;
+}
+
+main,
+section {
+  position: relative;
 }
 
 .rtl {
