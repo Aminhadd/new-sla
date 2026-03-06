@@ -22,16 +22,16 @@ export default async function LandingPage() {
       </Card>
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
-          <p className="mb-2 text-sm font-semibold text-cyan-700">Live SLA Visibility</p>
-          <p className="text-sm text-slate-600">Track response and resolution risk before breach, across every site.</p>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Tenant Portal</p>
+          <p className="text-sm text-slate-600">Submit maintenance requests, track status, view lease and notices, and access account records.</p>
         </Card>
         <Card>
-          <p className="mb-2 text-sm font-semibold text-cyan-700">Vendor Accountability</p>
-          <p className="text-sm text-slate-600">Compare vendors by compliance score, delivery speed, and approval cycle.</p>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Owner Portal</p>
+          <p className="text-sm text-slate-600">Monitor revenue, expenses, occupancy, and portfolio performance with cross-property visibility.</p>
         </Card>
         <Card>
-          <p className="mb-2 text-sm font-semibold text-cyan-700">Audit-Ready Records</p>
-          <p className="text-sm text-slate-600">Export standardized work-order and performance data for stakeholders.</p>
+          <p className="mb-2 text-sm font-semibold text-cyan-700">Manager Portal</p>
+          <p className="text-sm text-slate-600">Manage units, leases, maintenance workflows, and communication across all properties.</p>
         </Card>
       </div>
     </section>
